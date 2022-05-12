@@ -34,19 +34,25 @@ if (promptFight === "" || promptFight === null) {
  }
  return false;
 
-}
+};
 
 
 // fight function (now with parameter for enemy's object holding name, health, and attack values)
 var fight = function(enemy) {
+
+  // keep track of who goes first
+  let isPlayerTurn = true;
+  if (Math.random() > 0.5) {
+    isPlayerTurn = false;
+  }
+
   while (playerInfo.health > 0 && enemy.health > 0) {
-    
-    if (fightOrSkip()) {
-      break;
-    }
 
-    let playerDamage = randomNumber(playerInfo.attack -3, playerInfo.attack);
-
+    if (isPlayerTurn) {
+      if (fightOrSkip()) {
+        break;
+      }
+      let playerDamage = randomNumber(playerInfo.attack -3, playerInfo.attack);
     
     enemy.health = Math.max(0, enemy.health - playerDamage);
     console.log(
@@ -83,6 +89,8 @@ var fight = function(enemy) {
     } else {
       window.alert(playerInfo.name + ' still has ' + playerInfo.health + ' health left.');
     }
+  }
+  isPlayerTurn = !isPlayerTurn;
   } // end of while loop
 }; // end of fight function
 
